@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE  mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shop.provider8001.mapper.ShopCatMapper">
+    <resultMap id="BaseResultMap" type="ShopCat">
+        <result column="shopCatId" property="shopCatId"/>
+        <result column="uid" property="uid"/>
+        <result column="gId" property="gId"/>
+        <result column="gnum" property="gnum"/>
+        <result column="createTime" property="createTime"/>
+        <result column="isDeleted" property="isDeleted"/>
+        <association property="goods" javaType="Goods">
+            <result column="goodsId" property="goodsId"/>
+            <result column="name" property="name"/>
+            <result column="price" property="price"/>
+            <result column="describ" property="describ"/>
+            <result column="classify" property="classify"/>
+            <result column="imgPath" property="imgPath"/>
+            <result column="imgName" property="imgName"/>
+            <result column="createTime" property="createTime"/>
+            <result column="idDeleted" property="idDeleted"/>
+        </association>
+    </resultMap>
+
+    <!-- 表字段 -->
+    <sql id="baseColumns">
+        t.shopCatId
+        , t.uid
+        , t.gId
+        , t.gnum
+        , t.createTime
+        , t.isDeleted
+    </sql>
+
+    <!-- 查询全部 -->
+    <select id="listAll" resultMap="BaseResultMap">
+        SELECT
+        t.shopCatId
+        , t.uid
+        , t.gId
+        , t.gnum
+        , t.createTime
+        , t.isDeleted
+        , g.*
+        FROM shop_cat t left join goods g on t.gId = g.goodsId
+        <where>
+            <if test="uid != null and uid!=''">and t.uid=#{uid}</if>
+            <if test="gId != null and gId!=''">and t.gId=#{gId}</if>
+            <if test="createTime != null and createTime!=''">and t.createTime=#{createTime}</if>
+            <if test="isDeleted != null and isDeleted!=''">and t.isDeleted=#{isDeleted}</if>
+            and isDeleted = 0
+        </where>
+    </select>
+
+    <!-- 根据主键获取单条记录 -->
+    <select id="getById" resultMap="BaseResultMap" parameterType="Integer">
+        SELECT
+        <include refid="baseColumns"/>
+        FROM shop_cat t
+        WHERE shopCatId = #{shopCatId}
+    </select>
+
+    <!-- 插入不为NULL的字段 -->
+    <insert id="insertIgnoreNull" parameterType="ShopCat"
+            keyProperty="shopCatId" keyColumn="shopCatId" useGeneratedKeys="true"
+    >
+        INSERT INTO shop_cat
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uid != null">uid,</if>
+            <if test="gId != null">gId,</if>
+            <if test="gnum != null">gnum,</if>
+            <if test="createTime != null">createTime,</if>
+            <if test="isDeleted != null">isDeleted,</if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="uid != null">#{uid},</if>
+            <if test="gId != null">#{gId},</if>
+            <if test="gnum != null">#{gnum},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+        </trim>
+    </insert>
+
+    <!-- 更新,更新全部字段 -->
+    <update id="update" parameterType="ShopCat">
+        UPDATE shop_cat
+        <set>
+            uid=#{uid},
+            gId=#{gId},
+            createTime=#{createTime},
+            isDeleted=#{isDeleted},
+        </set>
+        WHERE shopCatId = #{shopCatId}
+    </update>
+
+
+    <!-- 更新不为NULL的字段 -->
+    <update id="updateIgnoreNull" parameterType="ShopCat">
+        UPDATE shop_cat
+        <set>
+            <if test="uid != null">uid=#{uid},</if>
+            <if test="gId != null">gId=#{gId},</if>
+            <if test="gnum != null">gnum=#{gnum},</if>
+            <if test="createTime != null">createTime=#{createTime},</if>
+            <if test="isDeleted != null">isDeleted=#{isDeleted},</if>
+        </set>
+        WHERE shopCatId = #{shopCatId}
+    </update>
+
+
+    <!-- 根据主键删除记录 -->
+    <delete id="delete" parameterType="ShopCat">
+        update shop_cat
+        set isDeleted = 1
+        WHERE shopCatId = #{shopCatId}
+    </delete>
+
+
+</mapper>

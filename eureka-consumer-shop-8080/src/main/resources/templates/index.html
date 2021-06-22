@@ -1,0 +1,767 @@
+<!-- <span class="iconfont icon-xxx"></span> -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>京东商城</title>
+    <link rel="stylesheet" th:href="@{/shop/css/cssreset.css}">
+    <link rel="stylesheet" th:href="@{/shop/css/index.css}">
+    <link rel="stylesheet" th:href="@{/shop/css/iconfont.css}">
+    <link rel="stylesheet" th:href="@{/elementUi/index.css}">
+    <script th:src="@{/shop/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/elementUi/vue.js}"></script>
+    <script th:src="@{/elementUi/index.js}"></script>
+    <script th:src="@{/elementUi/axios.min.js}"></script>
+</head>
+<style>
+    .time {
+        font-size: 13px;
+        color: #999;
+    }
+
+    .bottom {
+        margin-top: 13px;
+        line-height: 12px;
+    }
+
+    .button {
+        padding: 0;
+        float: right;
+    }
+
+    .image {
+        width: 100%;
+        display: block;
+    }
+
+    .clearfix:before,
+    .clearfix:after {
+        display: table;
+        content: "";
+    }
+
+    .clearfix:after {
+        clear: both
+    }
+</style>
+<body id="">
+<div class="myVue">
+    <div class="top">
+        <div class="nav">
+            <ul>
+                <li><a href="https://gitee.com/fonrye">京东商城</a></li>
+                <li><a href="https://github.com/Fonrye">SUJ</a></li>
+                <li><a href="https://github.com/Fonrye">物联网</a></li>
+                <li><a href="https://github.com/Fonrye">服务</a></li>
+                <li><a href="https://github.com/Fonrye">金融</a></li>
+                <li><a href="https://github.com/Fonrye">赞赏</a></li>
+                <li><a href="https://github.com/Fonrye">开放平台</a></li>
+                <li><a href="https://github.com/Fonrye">团购</a></li>
+                <li><a href="https://github.com/Fonrye">开发</a></li>
+                <li><a href="https://github.com/Fonrye">资质证书</a></li>
+                <li><a href="https://gitee.com/fonrye">协议规划</a></li>
+                <li><a href="https://github.com/Fonrye">下载app</a></li>
+            </ul>
+            <div class="navright" style="width: 155px">
+                <span @click="openShopCat(1)" style="vertical-align: bottom">
+                    <img src="" alt="">
+                    <span class="iconfont icon-xiazai1 shapcar"></span>购物车
+
+                </span>
+                <span style="vertical-align: bottom" @click="queryOrderList">
+                     <span class=" icon-xiazai1 shapcar"></span>我的订单
+                </span>
+            </div>
+            <ol>
+                <li><a href="">消息通知</a></li>
+
+                <li v-if="this.loginUser==null">
+                    <span @click="loginFormVisible=true">登录</span>
+                </li>
+                <li v-if="loginUser==null">
+                    <span>注册</span>
+                </li>
+                <!--                <li v-if="this.loginUser!=null">-->
+                <!--                    用户名:<span style="color: #f40;vertical-align: middle;text-indent: 1px;"-->
+                <!--                              v-text="loginUser.userName"></span>-->
+                <!--                </li>-->
+                <li v-if="this.loginUser!=null">
+                    昵称:<span style="color: #f40;vertical-align: middle;text-indent: 1px;"
+                             v-text="loginUser.nickName==null?'游客4704':loginUser.nickName"></span>
+                </li>
+                <li v-if="this.loginUser!=null">
+                    <span style="color: #f1f0f0" @click="shopLogout">退出登录</span>
+                </li>
+
+            </ol>
+        </div>
+    </div>
+
+    <div class="header">
+        <div>
+            <div>
+                <h1>
+                    <img th:src="@{/shop/images/mi-logo.png}" alt="">
+                </h1>
+
+            </div>
+        </div>
+
+        <div class="hright1">
+            <form action="">
+				<span>
+					<span class="iconfont icon-sousuo find"></span>
+				</span>
+                <input type="text">
+                <ol>
+                    <li><a href="#"> 9</a></li>
+                    <li><a href="#">pro</a></li>
+                    <li><a href="#">R40 pro</a></li>
+                    <li><a href="#">7+ Pro</a></li>
+                    <li><a href="#">电视4c</a></li>
+                    <li><a href="#">电视32英寸</a></li>
+                    <li><a href="#">笔记本</a></li>
+                    <li><a href="#">笔记</a></li>
+                    <li><a href="#">音响</a></li>
+                    <li><a href="#">净水器</a></li>
+                </ol>
+            </form>
+            <div class="word" style="right: 75px">
+            </div>
+        </div>
+        <div class="hright2">
+            <ul>
+                <li>社区</li>
+                <li>服务</li>
+                <li>家电</li>
+                <li>社区</li>
+                <li>服务</li>
+                <li>家电</li>
+                <li>社区</li>
+                <li>服务</li>
+                <li>笔记本</li>
+                <li>电视</li>
+                <li>手机</li>
+            </ul>
+        </div>
+    </div>
+    <div class="bann">
+        <ul class="bb">
+            <li><img th:src="@{/shop/images/banner1.webp.jpg}" alt=""></li>
+            <li><img th:src="@{/shop/images/bann2.webp}" alt=""></li>
+            <li><img th:src="@{/shop/images/bann3.webp.jpg}" alt=""></li>
+            <li><img th:src="@{/shop/images/bann4.jpg}" alt=""></li>
+            <li><img th:src="@{/shop/images/banne5.webp.jpg}" alt=""></li>
+        </ul>
+        <ol>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ol>
+        <span class="left"><span class="iconfont icon-mjiantou-copy bannleft"></span></span>
+        <span class="right"><span class="iconfont icon-dibudaohanglan- bannright"></span></span>
+    </div>
+    <div class="underban" style="height: 1px">
+
+    </div>
+
+    <div class="section">
+        <div class="conent1">
+            <div class="head1"><img style="width: 1103px;height: 104px" th:src="@{/shop/images/phone.webp.jpg}" alt="">
+            </div>
+            <div class="center1">
+                <div class="left">华为手机</div>
+                <div class="right">
+                    <a href="#">
+                        <span><span class="iconfont icon-jiantou forward1"></span></span>
+                        查看更多
+                    </a>
+                </div>
+            </div>
+            <div class="foot1">
+                <div class="lfoot1"><img th:src="@{/shop/images/phoneside.webp}" alt="">
+                </div>
+                <div class="rfoot1 " id="">
+                    <ul>
+                        <li v-for="item in redmiList">
+                            <span>
+                                <div class="sale">
+                                    <img :src="'/shop/preimg?p='+item.imgPath+'&n='+item.imgName" alt="">
+                                </div>
+                                <h3 class="title" v-text="item.name"></h3>
+                                <p class="desc" v-text="item.describ"></p>
+                                <p class="price" style="">
+                                    <span class="buy" v-text="item.price" style="font-size: 18px"></span>
+                                    <span> 元起</span>
+                                </p>
+                                <p class="price" style="margin-top: 15px">
+                                    <span class="buy"
+                                          style="font-size: 10px;border: 1px solid;padding: 5px;cursor: pointer;">立即购买</span>
+                                    <span class="buy"
+                                          @click="addToShopCat(item.goodsId)"
+                                          style="font-size: 10px;border: 1px solid;padding: 5px;cursor: pointer;">加入购物车</span>
+                                </p>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="bannertop">
+            <div class="left">
+                家电
+            </div>
+            <div class="right">
+			<span class="rright">
+				<span class="iconfont icon-dibudaohanglan- bannrright"></span>
+		    </span>
+                <span class="rleft">
+				<span class="iconfont icon-mjiantou-copy bannlleft"></span>
+			</span>
+            </div>
+        </div>
+
+        <div class="banner">
+            <div class="time">
+                <b>10:00 场</b>
+                <img src="data:img/jpg;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAA1CAYAAAAklDnhAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyNpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChNYWNpbnRvc2gpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjY4Q0ZFMkY5MTJFNzExRThCMkM4OEM1RTNBNjczQUVBIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjY4Q0ZFMkZBMTJFNzExRThCMkM4OEM1RTNBNjczQUVBIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6NjhDRkUyRjcxMkU3MTFFOEIyQzg4QzVFM0E2NzNBRUEiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6NjhDRkUyRjgxMkU3MTFFOEIyQzg4QzVFM0E2NzNBRUEiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5oEyacAAACoklEQVR42sSYv0tbURTHX0LqD6T4g4pEcHDoUOloBxVd/QFFEcQqWtrSKlKFmmAslopohzgIbv4FwUEE0clFujiIi+BSIbRQ0ooKRReRULHfS48Qgu++c3/FAx+iyU3eJzf3nnPuC/1qavQ04zVY8szjCHRGNN9cBD6DSkOJKzAGzsOaH/AW1FuYjRg4EH/oiJSCTxYk1sDK7T86Iu9BraHED/Au9wlVkYdg2lAiC/rBhYnIB/DIUOQj2M9/UkWkCsQNJbbA8l0vqIhMgXIDiZ/gFbgxEakBEwYSf8Eg+OM3gCsyA8oMRETy25UN4IjUgVEDiW2wGDSIIzILijUljsFLv3WhIvKYFphOXNO6OOUMDhKZA7qFcQF85Q6WXeQpeKEpcULlvY8xthp8iwR8I93qLLb7KnOsSPWNfhd6Bro99yHqTi9IhyWzEXIsIXbSG7Djt1jbQHsBZkMkyZRs13wpgIRoiJKy7dsBWh1LbN5Vt3JFQrQ2XMYeGKBk5yvSI7aRQ4k0eA4uZZlVPM47lDgTZxd6lKb4AcqkLuKSZiIdVGsiVFNcxDV9yT1Orekjoe+MDw4pHqwmaJewit66Ql0QaX+DOTaZe4DitAFZxQaaEynKnJ6KCDeaQAtj3A7VkBtXIpwT3iFV06zqquaKPKEtKIsM6Mo/StoWiQeMvSCJjO4+54hEwTCjuTk0STgckUm6QxTY3LgUKc+/jyFrblyKCIkKbnPjSkT8HDGV5saVyBAtVHZz40Ik7HNTRtrcuBARF2tQbW5ciCR0mhvbIs2EcnNjWySh29zYFGnIK25KzY1Nkdziptzc2BKJUu7Qbm5sicQom2o3NzZEKqiu/DZpbmyIjIAHNBMZ7x4iTALjhcgVQSIl3v87w5vePcY/AQYAFYR6skFSqBUAAAAASUVORK5CYII="
+                     alt="">
+                <p>距离结束还有</p>
+                <div class="times">
+                    <span>06</span><i>:</i><span>36</span><i>:</i><span>00</span>
+                </div>
+            </div>
+            <div class="foot1">
+                <div class="rfoot1 " id="">
+                    <ul>
+                        <li v-for="item in jiadianList">
+                            <span>
+                                <div class="sale">
+                                    <img :src="'/shop/preimg?p='+item.imgPath+'&n='+item.imgName" alt="">
+                                </div>
+                                <h3 class="title" v-text="item.name"></h3>
+                                <p class="desc" v-text="item.describ"></p>
+                                <p class="price" style="">
+                                    <span class="buy" v-text="item.price" style="font-size: 18px"></span>
+                                    <span> 元起</span>
+                                </p>
+                                <p class="price" style="margin-top: 15px">
+                                    <span class="buy"
+                                          style="font-size: 10px;border: 1px solid;padding: 5px;cursor: pointer;">立即购买</span>
+                                    <span class="buy"
+                                          @click="addToShopCat(item.goodsId)"
+                                          style="font-size: 10px;border: 1px solid;padding: 5px;cursor: pointer;">加入购物车</span>
+                                </p>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="conent1">
+            <div class="head1"><img style="width: 1103px;height: 104px" th:src="@{/shop/images/phone.webp.jpg}" alt="">
+            </div>
+            <div class="center1">
+                <div class="left">周边商品</div>
+                <div class="right">
+                    <a href="#">
+                        <span><span class="iconfont icon-jiantou forward1"></span></span>
+                        查看更多
+                    </a>
+                </div>
+            </div>
+            <div class="foot1">
+                <div class="lfoot1"><img th:src="@{/shop/images/phoneside.webp}" alt="">
+                </div>
+                <div class="rfoot1 " id="">
+                    <ul>
+                        <li v-for="item in zhoubianList">
+                            <span>
+                                <div class="sale">
+                                    <img :src="'/shop/preimg?p='+item.imgPath+'&n='+item.imgName" alt="">
+                                </div>
+                                <h3 class="title" v-text="item.name"></h3>
+                                <p class="desc" v-text="item.describ"></p>
+                                <p class="price" style="">
+                                    <span class="buy" v-text="item.price" style="font-size: 18px"></span>
+                                    <span> 元起</span>
+                                </p>
+                                <p class="price" style="margin-top: 15px">
+                                    <span class="buy"
+                                          style="font-size: 10px;border: 1px solid;padding: 5px;cursor: pointer;">立即购买</span>
+                                    <span class="buy"
+                                          @click="addToShopCat(item.goodsId)"
+                                          style="font-size: 10px;border: 1px solid;padding: 5px;cursor: pointer;">加入购物车</span>
+                                </p>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ssix">
+        <a href="">
+            <div class="six"><span class="iconfont icon-p-down chebian"></span></div>
+            <span>回顶部</span>
+        </a>
+    </div>
+    <!--消息弹框-->
+    <!--消息弹框-->
+    <!--消息弹框-->
+    <!--消息弹框-->
+    <!--消息弹框-->
+    <!--消息弹框-->
+    <!--消息弹框-->
+    <!--消息弹框-->
+        <!--登录-->
+        <el-dialog title="登录" :visible.sync="loginFormVisible" width="350">
+            <el-form :model="login">
+                <el-form-item label="用户名">
+                    <el-input v-model="login.userName" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="密码">
+                    <el-input v-model="login.password" autocomplete="off"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="loginFormVisible = false">取 消</el-button>
+                <el-button type="primary" @click="shopLogin">登录</el-button>
+            </div>
+        </el-dialog>
+        <!--购物车列表-->
+        <el-dialog
+                title="我的购物车"
+                :modal="false"
+                :visible.sync="shopCatVisible"
+                width="50%"
+                center>
+            <el-table
+                    ref="shopCatTable"
+                    :data="shopCat"
+                    tooltip-effect="dark"
+                    style="width: 100%"
+                    @selection-change="handleSelectionChange">
+                <el-table-column type="selection" width="30"></el-table-column>
+                <el-table-column
+                        prop="goods.name"
+                        label="商品名称"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        prop="goods.price"
+                        label="价格(元)"
+                        width="110"
+                        show-overflow-tooltip>
+                </el-table-column>
+                <el-table-column
+                        prop="goods.describ"
+                        label="描述信息"
+                        show-overflow-tooltip>
+                </el-table-column>
+                <el-table-column label="商品图片" width="120">
+                    <template slot-scope="scope">
+                        <div class="demo-image__placeholder">
+                            <div class="block">
+                                <el-image
+                                        :src="'/shop/preimg?p='+scope.row.goods.imgPath+'&n='+scope.row.goods.imgName">
+                                </el-image>
+                            </div>
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column label="商品数量" width="150">
+                    <template slot-scope="scope">
+                        <el-input-number v-model="scope.row.gnum" size="mini" :min="1" :max="10"
+                                         @change="(val,oldValue)=>{shopCatGoodsHandleChange(scope.row,val,oldValue)}">
+                        </el-input-number>
+                    </template>
+                </el-table-column>
+                <el-table-column label="操作" width="120">
+                    <template slot-scope="scope">
+                        <el-button
+                                @click="removeGoodsFromShopCat(scope.row,scope.$index,shopCat)"
+                                type="text"
+                                size="small">
+                            移除
+                        </el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="shopCatVisible = false">取 消</el-button>
+                <el-button type="primary" @click="orderBuy">下单购买</el-button>
+            </span>
+        </el-dialog>
+        <!-- 商品详细下单页 -->
+        <el-dialog width="30%" :modal="false" :visible.sync="shopBuyVisible">
+            <el-table ref=""
+                      :data="orderGoods"
+                      tooltip-effect="dark"
+                      style="width: 100%">
+                <el-table-column label="订单信息">
+                    <template slot-scope="scope">
+                        <el-card :body-style="{ padding: '0px' }">
+                            <el-row>
+                                <el-col :span="9">
+                                    <el-image
+                                            :src="'/shop/preimg?p='+scope.row.goods.imgPath+'&n='+scope.row.goods.imgName">
+                                    </el-image>
+                                </el-col>
+                                <el-col :span="15">
+                                    <div style="padding: 14px; border-left: 1px solid #dddddb;margin:auto 0;
+                                        position: absolute;top:20%;">
+                                        <el-row>
+                                            <span style="color: rgb(140, 140, 140)">名称：</span>
+                                            <span v-text="scope.row.goods.name"></span>
+                                        </el-row>
+                                        <el-row>
+                                            <span style="color: rgb(140, 140, 140)">价格：</span>
+                                            <span style="color: #f40;" v-text="scope.row.goods.price"></span>
+                                        </el-row>
+                                        <el-row>
+                                            <span v-text="scope.row.goods.describ"></span>
+                                        </el-row>
+                                    </div>
+                                </el-col>
+                            </el-row>
+                        </el-card>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <span slot="footer" class="dialog-footer">
+                <el-row>
+                    <el-col :span="5" style="font-size: 18px">
+                        <span>总费用：</span>
+                        <span v-text="shopBuyFee" style="color: #f40;"></span>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-button @click="shopBuyVisible = false;shopCatVisible=true">返回</el-button>
+                    <el-button type="primary" @click="payOrder">去付款</el-button>
+                </el-row>
+
+            </span>
+        </el-dialog>
+        <!-- 我的订单页面 -->
+        <el-dialog width="33%" label="我的订单" :modal="false" :visible.sync="orderListVisible">
+            <el-table :data="myOrderList"
+                      :header-cell-style="{textAlign: 'center'}"
+                      height="600"
+                      tooltip-effect="dark"
+                      style="width: 100%" center>
+                <el-table-column
+                        :cell-style="{ textAlign: 'center' }"
+                        prop="orderId"
+                        label="订单编号"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        :cell-style="{ textAlign: 'center' }"
+                        prop="fee"
+                        label="订单金额"
+                        width="120">
+                </el-table-column>
+                <el-table-column :cell-style="{ textAlign: 'center' }" label=订单状态 width="120">
+                    <template slot-scope="scope">
+                        <el-tag v-if="scope.row.oState == '待支付'" type="warning" v-text="scope.row.oState"></el-tag>
+                        <el-tag v-else-if="scope.row.oState == '已付款'" type="success" v-text="scope.row.oState"></el-tag>
+                        <el-tag v-else type="success" v-text="scope.row.oState"></el-tag>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        :cell-style="{ textAlign: 'center' }"
+                        prop="createTime"
+                        :formatter="formatDate"
+                        label=下单时间
+                        width="125">
+                </el-table-column>
+                <el-table-column :cell-style="{ textAlign: 'center' }" label="操作" width="120">
+                    <template slot-scope="scope">
+                        <el-button
+                                @click="detailOrder(scope.row)"
+                                type="text"
+                                size="small">
+                            详细
+                        </el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </el-dialog>
+
+    </div>
+</div>
+<script th:src="@{/shop/js/index.js}"></script>
+<script th:src="@{/elementUi/axios.min.js}"></script>
+
+<script>
+    new Vue({
+        el: '.myVue',
+        data: {
+            loginFormVisible: false,
+            shopBuyVisible: false,
+            orderListVisible: false,
+            redmiList: [], //RedmiList
+            jiadianList: [],
+            zhoubianList: [],
+            loginUser: null,
+            payLoading: true,
+            login: {
+                userName: "",
+                password: ""
+            },
+            shopCatVisible: false,
+            shopCat: [], //购物车
+            multipleSelection: [],
+            shopBuyFee: null,
+            orderGoods: [],//下单商品
+            oOrder: null,
+            myOrderList: [],
+        },
+        created() {
+            this.loginUser = JSON.parse(window.sessionStorage.getItem("loginUser"));
+            /** 初始化Redmi系列信息 */
+            this.getRedmiList();
+
+            this.getJiadianList();
+            this.getZhoubianList()
+        },
+        methods: {
+            /** 获取 系列手机商品*/
+            getRedmiList() {
+                axios.get("/api/shop/goods", {
+                    params: {
+                        classify: "华为手机"
+                    }
+                }).then(resp => {
+                    this.redmiList = resp.data.data;
+                })
+            },
+            getJiadianList() {
+                axios.get("/api/shop/goods", {
+                    params: {
+                        classify: "家电"
+                    }
+                }).then(resp => {
+                    this.jiadianList = resp.data.data;
+                })
+            },
+            getZhoubianList() {
+                axios.get("/api/shop/goods", {
+                    params: {
+                        classify: "周边商品"
+                    }
+                }).then(resp => {
+                    this.zhoubianList = resp.data.data;
+                })
+            },
+            // 订单详细
+            detailOrder(order){
+
+            },
+            // 查询所有订单
+            queryOrderList() {
+                this.orderListVisible = true
+                this.myOrderList = []
+                axios.get("/api/order/list", {
+                    params: {
+                        ouid: this.loginUser.userId
+                    }
+                }).then(({data}) => {
+                    this.myOrderList = data.data
+                })
+            },
+            /** 下单详情页*/
+            orderBuy() {
+                if (this.multipleSelection.length === 0) {
+                    this.$message({
+                        type: "warn",
+                        message: "暂无商品购买！"
+                    })
+                    return
+                }
+                this.orderGoods = this.multipleSelection
+                // 下单
+                this.shopBuy(1)
+                let fee = 0
+                this.orderGoods.forEach((cat) => {
+                    fee += cat.goods.price * cat.gnum
+                })
+                this.shopBuyFee = fee
+                this.shopBuyVisible = true;
+                this.shopCatVisible = false;
+            },
+            /** 购物车列表*/
+            openShopCat(type = 0) {
+                if (this.loginUser == null) {
+                    this.$message({
+                        type: 'warn',
+                        message: '请您先登录！!'
+                    });
+                    return;
+                }
+                if (type === 1) {
+                    this.shopCatVisible = true;
+                }
+                axios.get("/api/shop/cat/list", {
+                    params: {
+                        uid: this.loginUser.userId
+                    }
+                }).then(({data}) => {
+                    this.shopCat = data.data
+                })
+            },
+            /** 去付款*/
+            payOrder() {
+                axios.post("/api/order/pay", {
+                    orderId: this.oOrder.orderId,
+                    oState: "已付款"
+                }).then(({data}) => {
+                    this.$message({
+                        type: "success",
+                        message: "付款成功"
+                    })
+                    this.oOrder = null;
+                    this.orderGoods = []
+                    this.shopBuyVisible = false;
+
+                })
+            },
+            /** 购买商品*/
+            shopBuy(type = 0) {
+                if (type === 1) {
+                    if (this.multipleSelection.length === 0) {
+                        this.$message({
+                            type: "warn",
+                            message: "请选择需要购买的商品！"
+                        })
+                        return
+                    }
+                    axios.post("/api/order/buy", this.multipleSelection).then(({data}) => {
+                        if (data.code === 200) {
+                            this.$message({
+                                type: "success",
+                                message: "购买成功"
+                            })
+                            this.openShopCat();
+                            this.oOrder = data.data;
+                        }
+                    })
+                } else {
+
+                }
+            },
+            /** 添加至购物车中*/
+            addToShopCat(goodsId) {
+                if (this.loginUser == null) {
+                    this.$message({
+                        type: 'wran',
+                        message: '请您先登录！!'
+                    });
+                    return;
+                }
+                this.$confirm('是否确认添加至您的购物车中？?', '购物车提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '我在考虑一下',
+                    type: 'warning'
+                }).then(() => {
+                    axios.get("/api/shop/cat/add", {
+                        params: {
+                            gId: goodsId, uid: this.loginUser.userId
+                        }
+                    }).then(({data}) => {
+                        if (data.code === 200) {
+                            this.$message({
+                                type: 'success',
+                                message: '添加成功！'
+                            });
+                        }
+                    })
+
+                }).catch(() => {
+
+                });
+            },
+            /* 购物车商品数量变化*/
+            shopCatGoodsHandleChange(shopCat, currentValue) {
+                axios.post("/api/shop/cat/update", {
+                    shopCatId: shopCat.shopCatId,
+                    gnum: currentValue
+                }).then(({data}) => {
+                    if (data.code === 200) {
+
+                    }
+                })
+            },
+            /* 登录 */
+            shopLogin() {
+                const that = this;
+                axios.post("/api/shop/login", this.login).then(({data}) => {
+                    if (data.code === 200) {
+                        window.sessionStorage.setItem("loginUser", JSON.stringify(data.data))
+                        that.loginUser = data.data
+                        that.$message({
+                            type: "success",
+                            message: "登录成功！"
+                        })
+                        that.loginFormVisible = false
+                        that.login.userName = ""
+                        that.login.password = ""
+                    } else {
+                        that.$message({
+                            type: "error",
+                            message: "用户名或密码错误！"
+                        })
+                    }
+
+                })
+            },
+            /*退出登录*/
+            shopLogout() {
+                window.sessionStorage.removeItem("loginUser")
+                this.loginUser = JSON.parse(window.sessionStorage.getItem("loginUser"))
+                this.$message({
+                    type: "success",
+                    message: '退出成功！'
+                })
+            },
+            /** 移除购物车物品*/
+            removeGoodsFromShopCat(shopCat, index) {
+                axios.get("/api/shop/cat/remove", {
+                    params: {
+                        shopCatId: shopCat.shopCatId
+                    }
+                }).then(({data}) => {
+                    if (data.code === 200) {
+                        this.shopCat.splice(index, 1)
+                        this.$message({
+                            type: "success",
+                            message: '移除成功！'
+                        })
+                    }
+                })
+
+            },
+            formatDate(row){
+              var date = new Date(row.createTime);
+              var y = date.getFullYear();
+              var M = date.getMonth();
+              var d = date.getDate();
+              var H = date.getHours();
+              var m = date.getMinutes();
+              return `${y}-${M}-${d} ${H}:${m}`
+            },
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+            }
+        }
+    })
+</script>
+</body>
+</html>

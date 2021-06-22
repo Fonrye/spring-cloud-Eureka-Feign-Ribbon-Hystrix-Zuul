@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE  mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shop.provider8002.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="User">
+        <result column="userId" property="userId"/>
+        <result column="userName" property="userName"/>
+        <result column="password" property="password"/>
+        <result column="nickName" property="nickName"/>
+        <result column="role" property="role"/>
+        <result column="tele" property="tele"/>
+        <result column="nationality" property="nationality"/>
+    </resultMap>
+
+    <!-- 表字段 -->
+    <sql id="baseColumns">
+        t.userId
+        , t.userName
+        , t.password
+        , t.nickName
+        , t.role
+        , t.tele
+        , t.nationality
+    </sql>
+    <!-- 查询全部 -->
+    <select id="listAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="baseColumns"/>
+        FROM sys_user t
+        <where>
+            <if test="userName != null and userName!=''">and userName=#{userName}</if>
+            <if test="password != null and password!=''">and password=#{password}</if>
+            <if test="nickName != null and nickName!=''">and nickName=#{nickName}</if>
+        </where>
+    </select>
+
+    <!-- 根据主键获取单条记录 -->
+    <select id="getById" resultMap="BaseResultMap" parameterType="Integer">
+        SELECT
+        <include refid="baseColumns"/>
+        FROM sys_user t
+        WHERE userId = #{userId}
+    </select>
+
+    <!-- 插入不为NULL的字段 -->
+    <insert id="insertIgnoreNull" parameterType="User"
+            keyProperty="userId" keyColumn="userId" useGeneratedKeys="true">
+        INSERT INTO sys_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userName != null">userName,</if>
+            <if test="password != null">password,</if>
+            <if test="nickName != null">nickName,</if>
+            <if test="tele != null">tele,</if>
+            <if test="role != null">role,</if>
+            <if test="nationality != null">nationality,</if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="userName != null">#{userName},</if>
+            <if test="password != null">#{password},</if>
+            <if test="nickName != null">#{nickName},</if>
+            <if test="tele != null">#{tele},</if>
+            <if test="role != null">#{role},</if>
+            <if test="nationality != null">#{nationality},</if>
+        </trim>
+    </insert>
+
+    <!-- 更新不为NULL的字段 -->
+    <update id="updateIgnoreNull" parameterType="User">
+        UPDATE sys_user
+        <set>
+            <if test="userName != null">userName=#{userName},</if>
+            <if test="password != null">password=#{password},</if>
+            <if test="nickName != null">nickName=#{nickName},</if>
+            <if test="tele != null">tele=#{tele},</if>
+            <if test="role != null">role=#{role},</if>
+            <if test="nationality != null">nationality=#{nationality},</if>
+        </set>
+        WHERE userId = #{userId}
+    </update>
+
+
+    <!-- 根据主键删除记录 -->
+    <delete id="delete" parameterType="User">
+        delete
+        from sys_user
+        WHERE userId = #{userId}
+    </delete>
+
+
+</mapper>

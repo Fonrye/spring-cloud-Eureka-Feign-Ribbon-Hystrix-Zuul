@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE  mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shop.provider8001.mapper.GoodsMapper">
+    <resultMap id="BaseResultMap" type="Goods">
+        <result column="goodsId" property="goodsId"/>
+        <result column="name" property="name"/>
+        <result column="price" property="price"/>
+        <result column="describ" property="describ"/>
+        <result column="classify" property="classify"/>
+        <result column="imgPath" property="imgPath"/>
+        <result column="imgName" property="imgName"/>
+        <result column="createTime" property="createTime"/>
+        <result column="idDeleted" property="idDeleted"/>
+    </resultMap>
+
+    <!-- 表字段 -->
+    <sql id="baseColumns">
+        t.goodsId
+        , t.name
+        , t.price
+        , t.describ
+        , t.classify
+        , t.imgPath
+        , t.imgName
+        , t.createTime
+        , t.idDeleted
+    </sql>
+
+    <!-- 查询全部 -->
+    <select id="listAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="baseColumns"/>
+        FROM goods t
+        <where>
+            <if test="name != null and name!=''">and name=#{name}</if>
+            <if test="price != null and price!=''">and price=#{price}</if>
+            <if test="describ != null and describ!=''">and describ=#{describ}</if>
+            <if test="classify != null and classify!=''">and classify=#{classify}</if>
+            <if test="imgPath != null and imgPath!=''">and imgPath=#{imgPath}</if>
+            <if test="imgName != null and imgName!=''">and imgName=#{imgName}</if>
+            <if test="createTime != null and createTime!=''">and createTime=#{createTime}</if>
+            <if test="idDeleted != null and idDeleted!=''">and idDeleted=#{idDeleted}</if>
+        </where>
+    </select>
+
+    <!-- 根据主键获取单条记录 -->
+    <select id="getById" resultMap="BaseResultMap" parameterType="Integer">
+        SELECT
+        <include refid="baseColumns"/>
+        FROM goods t
+        WHERE goodsId = #{goodsId}
+    </select>
+
+
+
+    <!-- 插入不为NULL的字段 -->
+    <insert id="insertIgnoreNull" parameterType="Goods"
+            keyProperty="goodsId" keyColumn="goodsId" useGeneratedKeys="true"
+    >
+        INSERT INTO goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="price != null">price,</if>
+            <if test="describ != null">describ,</if>
+            <if test="classify != null">classify,</if>
+            <if test="imgPath != null">imgPath,</if>
+            <if test="imgName != null">imgName,</if>
+            <if test="createTime != null">createTime,</if>
+            <if test="idDeleted != null">idDeleted,</if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="price != null">#{price},</if>
+            <if test="describ != null">#{describ},</if>
+            <if test="classify != null">#{classify},</if>
+            <if test="imgPath != null">#{imgPath},</if>
+            <if test="imgName != null">#{imgName},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="idDeleted != null">#{idDeleted},</if>
+        </trim>
+    </insert>
+
+    <!-- 更新,更新全部字段 -->
+    <update id="update" parameterType="Goods">
+        UPDATE goods
+        <set>
+            name=#{name},
+            price=#{price},
+            describ=#{describ},
+            classify=#{classify},
+            imgPath=#{imgPath},
+            imgName=#{imgName},
+            createTime=#{createTime},
+            idDeleted=#{idDeleted},
+        </set>
+        WHERE goodsId = #{goodsId}
+    </update>
+
+
+    <!-- 更新不为NULL的字段 -->
+    <update id="updateIgnoreNull" parameterType="Goods">
+        UPDATE goods
+        <set>
+            <if test="name != null">name=#{name},</if>
+            <if test="price != null">price=#{price},</if>
+            <if test="describ != null">describ=#{describ},</if>
+            <if test="classify != null">classify=#{classify},</if>
+            <if test="imgPath != null">imgPath=#{imgPath},</if>
+            <if test="imgName != null">imgName=#{imgName},</if>
+            <if test="createTime != null">createTime=#{createTime},</if>
+            <if test="idDeleted != null">idDeleted=#{idDeleted},</if>
+        </set>
+        WHERE goodsId = #{goodsId}
+    </update>
+
+
+    <!-- 根据主键删除记录 -->
+    <delete id="delete" parameterType="Goods">
+        delete
+        from goods
+        WHERE goodsId = #{goodsId}
+    </delete>
+
+
+</mapper>

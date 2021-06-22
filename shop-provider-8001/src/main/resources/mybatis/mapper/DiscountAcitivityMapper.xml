@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE  mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shop.provider8001.mapper.DiscountAcitivityMapper">
+    <resultMap id="BaseResultMap" type="DiscountAcitivity">
+        <result column="activityId" property="activityId"/>
+        <result column="discount" property="discount"/>
+        <result column="activityContent" property="activityContent"/>
+        <result column="startTime" property="startTime"/>
+        <result column="endTime" property="endTime"/>
+        <result column="createTime" property="createTime"/>
+        <result column="isDeleted" property="isDeleted"/>
+    </resultMap>
+
+    <!-- 表字段 -->
+    <sql id="baseColumns">
+        t
+        .
+        activityId
+        , t.discount
+        , t.activityContent
+        , t.startTime
+        , t.endTime
+        , t.createTime
+        , t.isDeleted
+    </sql>
+
+    <!-- 查询全部 -->
+    <select id="listAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="baseColumns"/>
+        FROM discount_acitivity t
+        <where>
+            <if test="discount != null and discount!=''">and discount=#{discount}</if>
+            <if test="activityContent != null and activityContent!=''">and activityContent=#{activityContent}</if>
+            <if test="startTime != null and startTime!=''">and startTime=#{startTime}</if>
+            <if test="endTime != null and endTime!=''">and endTime=#{endTime}</if>
+            <if test="createTime != null and createTime!=''">and createTime=#{createTime}</if>
+            <if test="isDeleted != null and isDeleted!=''">and isDeleted=#{isDeleted}</if>
+        </where>
+    </select>
+
+    <!-- 根据主键获取单条记录 -->
+    <select id="getById" resultMap="BaseResultMap" parameterType="Integer">
+        SELECT
+        <include refid="baseColumns"/>
+        FROM discount_acitivity t
+        WHERE activityId = #{activityId}
+    </select>
+
+
+    <!-- 插入不为NULL的字段 -->
+    <insert id="insertIgnoreNull" parameterType="DiscountAcitivity"
+            keyProperty="activityId" keyColumn="activityId" useGeneratedKeys="true"
+    >
+        INSERT INTO discount_acitivity
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="discount != null">discount,</if>
+            <if test="activityContent != null">activityContent,</if>
+            <if test="startTime != null">startTime,</if>
+            <if test="endTime != null">endTime,</if>
+            <if test="createTime != null">createTime,</if>
+            <if test="isDeleted != null">isDeleted,</if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="discount != null">#{discount},</if>
+            <if test="activityContent != null">#{activityContent},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+        </trim>
+    </insert>
+
+    <!-- 更新,更新全部字段 -->
+    <update id="update" parameterType="DiscountAcitivity">
+        UPDATE discount_acitivity
+        <set>
+            discount=#{discount},
+            activityContent=#{activityContent},
+            startTime=#{startTime},
+            endTime=#{endTime},
+            createTime=#{createTime},
+            isDeleted=#{isDeleted},
+        </set>
+        WHERE activityId = #{activityId}
+    </update>
+
+
+    <!-- 更新不为NULL的字段 -->
+    <update id="updateIgnoreNull" parameterType="DiscountAcitivity">
+        UPDATE discount_acitivity
+        <set>
+            <if test="discount != null">discount=#{discount},</if>
+            <if test="activityContent != null">activityContent=#{activityContent},</if>
+            <if test="startTime != null">startTime=#{startTime},</if>
+            <if test="endTime != null">endTime=#{endTime},</if>
+            <if test="createTime != null">createTime=#{createTime},</if>
+            <if test="isDeleted != null">isDeleted=#{isDeleted},</if>
+        </set>
+        WHERE activityId = #{activityId}
+    </update>
+
+
+    <!-- 根据主键删除记录 -->
+    <delete id="delete" parameterType="DiscountAcitivity">
+        delete
+        from discount_acitivity
+        WHERE activityId = #{activityId}
+    </delete>
+
+
+</mapper>

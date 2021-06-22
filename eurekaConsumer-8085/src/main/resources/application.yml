@@ -1,0 +1,22 @@
+server:
+  port: 8085
+
+#Eureka的配置，服务注册到
+eureka:
+  client:
+    register-with-eureka: true # 先不向Eureka注册自己  写完再说
+    service-url:
+      defaultZone:  http://localhost:7001/eureka/,http://localhost:7002/eureka/
+spring:
+  application:
+    name: eureka-consumer-8085
+   # thymeleaf 缓存处理
+  thymeleaf:
+    cache: false
+  main:
+    allow-bean-definition-overriding: true
+#  hystrix
+feign:
+  hystrix:
+    enabled: true
+

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE  mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shop.provider8002.mapper.GoodsActivityMapper">
+    <resultMap id="BaseResultMap" type="GoodsActivity">
+        <result column="gaId" property="gaId"/>
+        <result column="activity_Id" property="activityId"/>
+        <result column="goodsId" property="goodsId"/>
+        <result column="isDeleted" property="isDeleted"/>
+    </resultMap>
+
+    <!-- 表字段 -->
+    <sql id="baseColumns">
+        t.gaId
+        , t.activity_Id
+        , t.goodsId
+        , t.isDeleted
+    </sql>
+
+    <!-- 查询全部 -->
+    <select id="listAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="baseColumns"/>
+        FROM goods_activity t
+        <where>
+            <if test="activityId != null and activityId!=''">and activity_Id=#{activityId}</if>
+            <if test="goodsId != null and goodsId!=''">and goodsId=#{goodsId}</if>
+            <if test="isDeleted != null and isDeleted!=''">and isDeleted=#{isDeleted}</if>
+        </where>
+    </select>
+
+    <!-- 根据主键获取单条记录 -->
+    <select id="getById" resultMap="BaseResultMap" parameterType="Integer">
+        SELECT
+        <include refid="baseColumns"/>
+        FROM goods_activity t
+        WHERE gaId = #{gaId}
+    </select>
+
+
+
+    <!-- 插入不为NULL的字段 -->
+    <insert id="insertIgnoreNull" parameterType="GoodsActivity"
+            keyProperty="gaId" keyColumn="gaId" useGeneratedKeys="true"
+    >
+        INSERT INTO goods_activity
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="activityId != null">activity_Id,</if>
+            <if test="goodsId != null">goodsId,</if>
+            <if test="isDeleted != null">isDeleted,</if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="activityId != null">#{activityId},</if>
+            <if test="goodsId != null">#{goodsId},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+        </trim>
+    </insert>
+
+    <!-- 更新,更新全部字段 -->
+    <update id="update" parameterType="GoodsActivity">
+        UPDATE goods_activity
+        <set>
+            activity_Id=#{activityId},
+            goodsId=#{goodsId},
+            isDeleted=#{isDeleted},
+        </set>
+        WHERE gaId = #{gaId}
+    </update>
+
+
+    <!-- 更新不为NULL的字段 -->
+    <update id="updateIgnoreNull" parameterType="GoodsActivity">
+        UPDATE goods_activity
+        <set>
+            <if test="activityId != null">activity_Id=#{activityId},</if>
+            <if test="goodsId != null">goodsId=#{goodsId},</if>
+            <if test="isDeleted != null">isDeleted=#{isDeleted},</if>
+        </set>
+        WHERE gaId = #{gaId}
+    </update>
+
+
+    <!-- 根据主键删除记录 -->
+    <delete id="delete" parameterType="GoodsActivity">
+        delete
+        from goods_activity
+        WHERE gaId = #{gaId}
+    </delete>
+
+
+</mapper>

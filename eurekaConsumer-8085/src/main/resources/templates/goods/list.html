@@ -1,0 +1,441 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>商品页面</title>
+    <meta name="description" content="这是一个 index 页面">
+    <meta name="keywords" content="index">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <link rel="icon" type="image/png" href="https://www.jq22.com/demo/amazeUi20161129/assets/i/favicon.png">
+    <link rel="apple-touch-icon-precomposed"
+          href="https://www.jq22.com/demo/amazeUi20161129/assets/i/app-icon72x72@2x.png">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI">
+    <link rel="stylesheet" th:href="@{/amaze/amazeui.min.css}">
+    <link rel="stylesheet" th:href="@{/amaze/admin.css}">
+    <link rel="stylesheet" th:href="@{/amaze/app.css}">
+    <style type="text/css">.container-fluid.czbanner, .thumbile, .thumbile.cc_cursor, .project-content.inad, .felbanner, .felbanner.cc_cursor, .button.chk.checkbox_false_full_focus, .button.chk.checkbox_true_full_focus, .button.chk.checkbox_false_full, .project-header, .project-header.cc_cursor, .grid, .am-u-sm-3.am-form-label, .cc_cursor, body, .ogdlpmhglpejoiomcodnpjnfgcpmgale_default, body, html, input[type="date"], input[type="time"], input[type="datetime-local"], input[type="month"], input::-webkit-contacts-auto-fill-button, input:read-only {
+        cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAFQ0lEQVRIS62Wa1CUZRTH/8+7d3ZhLwTrrtwV5aqSIIORWSnmVCRXFRsnFdJsnNKphmb6QDM6wwedHKfwMmJNauiuwoh2wZpJGqVJMxSImwELwsKyLLDLZd/dfS/NsklNAlb2fHyfM+d/zu85/zMvAYC4PIN4sZrfzElEH/JuZle1rvkqSkr47MJzqSKh5ATLM4Yh1/jBa59to7NfP60TSGRHOQZmaoh7z2jMH/fmmO0Qb/JFQdQb9tiQktGlkaqgutbf/Dqt71IcM6DRBB8PXxCXOGw1u/p6u0rdDH1FolQc0GUkZDAOJ7HUtp1naec7lSdf7Z1VYEOR4TX7krCPhtNilZxYRISOCcyrqbeoR2lnfGJauMzPn3Aci96e1jGzxTQSmrci1E+vJuCBsc4Bpu/K3TOTNnrfl19sGZlJhLyyp6q7J29lGKPyBwgBeB6BrAcvtTGgGDkI8ebiwfMsHBFOcDrZ1Dfv4TwM+r9tmrDeNK2s/rygYWaBXRfWOSOCPramxy1kAuQIE1N4QSmCkgEcTSw8wzx4wkEU6AaRcxgLEMApF4DjOFjr2mnbLVOpwz5x8OrprRMzCqCkhNpgjs10adXHJrNStbk6BdQCX4Wsk4ej0QOIXaBk3FSDHAEccoLOuhaMNPSV2myWA9eMb8760F4mJKvIuEoRID+9IjMlVBUdCCL0CTg5oGbUhSQbDRXvq49nOZgaO+nupq7DxmP57881Qd47klVkeEYbEng0OiUmRuovI0K5CDKtDC4Bha/sbnS4efhxPJ6bdEPnYdHd0En3NPeUDloHDs1V+QNhsnFPZevyjORFcpWCPHg8gViAq3Ix7rFe/t6yeahYHvE32mBr7LxsHbYU/JPkUx3k7DTsC4sL3x+5JEomEAoAlsBtlWAEFGqieEyKAIrnsdRCkGBh8Wv9dceEY2zrBbvhCoxG9pGI1q8/IlGE6/eGLA4pjkhYqOQdfuBpyjvmMMuBn/Q8Ikd5JA5REPAEjIdGR/tdk9U2UFx5PP/8IwW8AZk7KpJkcknlqs3PRri7ZN53nxLwGqy1rxUL5kVBIpROe4IE0Gi5c3vI2jXwdtWpLWfnXBXe3SIPUH2asjElQx0WTJzdLCY6OHAMi97uVvr+/Y5qqUT2fMKypzRisYyIlATKJBFAPKg9Weuwm+1bLwzPjots2lN5KTkn+WVt7HxCEQo8x2PC5Ebzd810f29X6aBt4JBKqUl+IlBXFpuWGBOUrCYCMQEI4Bp34s6lX0z9LeZi4yy4SP7ui58krIvfHZkaDUpAgWMY3LlcD9PPplLbiPUPE5VQWTviMtR6ZXn69nS9WO43ZTrWzWC4zYbG7xuHhvsGZ8RF8vIMCoFWcHJ5bnJOcLRO2F7bQrdfv3fYWJb7kImyCg1rlcGKivRtT2tEMimZuD8OsADLsLhdc8sxPjz+EK4py2YXngkRS6X79Qnzc3qbzAcHLbObKLfQuFq7OLhsYVJ0jFginfbOOO3GjdttJnQOFF/6Cy7fTgDwYsFZtUDIhNI86ZhtcfkifbiUQf7ly9Y8qRdJRFMT97VchH6XG8E19UOyHss0rmmBR83z3++zi86vUaj8zsWvTdb8EKggPWKhL4RhEHKxzi7tt22qKi/45j8LeHPlFlas9kTqynpXxce4lXLiW7ccNDdbac2P7XurTrWdeCwBL67MnXEZnqCAcnNmqp6TiBF4oxnqpu4jLG3/oPrUjrHHFPBR8eJyq+UV41Fahbqh+0RVWe5b09v037KfLT5ruyGNIswiSiK8aCz780/jf+lgriJ/B2y/XrmeB+iSAAAAAElFTkSuQmCC") 2 2, auto !important;
+    }
+
+    .TnITTtw-translate-selection-button, .sort, .sort.cc_pointer, .course-hasContent, .level1, .level0, .btn.btn-danger.btn-danet, .fdr, .cc_pointer, [type="search"]::-webkit-search-cancel-button, [type="search"]::-webkit-search-decoration, .paper-button, .ytp-progress-bar-container, input[type=submit], :link, :visited, a > *, img, button, ::-webkit-scrollbar-button, .ogdlpmhglpejoiomcodnpjnfgcpmgale_pointer, ::-webkit-file-upload-button, button, .ytp-volume-panel, #myogdlpmhglpejoiomcodnpjnfgcpmgale .icon {
+        cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAADuklEQVRIS72VXWwUVRTH//fu7Mxsd9ddQvVFI2KUJosi0YCRLB+2SeUjJqVipCwmNY1ogkQTig8mJI0+6gvqi9HUlQdC/Ojugn1QSUNJF0PT8IDhIwUi9aFE26XdnS3d3bl3rpm5dyzZBQlJYR4mmT1nzm/+/3PuWYK664U9XwUfF/EMj4ZeAYiMOnyOlm72ZPt3/VSff7dnVWEhraP727iIxPOX925JUCa8gDE1y55MD/X+cDh16G4F6+N3BFypAyy/HwCiFJhTs2xRAVoklo/2tCfAHE8xK5SYdWS4N7tYFhmRWP7lVFvC4dwDWDcslh8Y6T2WXqQeLACkgnKhZI9kRg7cR4DFT2fzv1JCz6i5bRwmSr3fhBDCoeRM7us3fnGfbztFeiiWT7ZtTXBHjmkhyMVgvAwqAEKAtU0BPBsKwI0KLlA858CpyFzOazg7Nnwy159q/R9APL9uw9aEkA5h2nSQaQECLgBAa1TDmrAmv5gLFPI2nIrMte0KTp/6eTTbn3rxwQA6e45+wRlf5ZtKaKCoG3py3YZtSxxfQahRwdp6BfNKAatTsHt/jrX3bg74gEtDF3H196vo+LgTjpxS8AqDda0EQgiEANiMDl4Men4xKjCwQqBsyFxaqWLFl4OjP36nLNp94Li95cNtmnRX4MKJ87iSH0fHJ51w2K0A6xZAELwU9BrOSCPg6QcKSO3PzbfubTOZaQKUYHxkHNfG/sT29zbD7wGvMVh/l+WMutt7RoOw5BQxCvz2FDCnLCLVKh45NDg64FvU+fbRfdD1Nye61q+xYxFvtoMc6D5HvZe9ImEBazUHBHFPEh4qMYTLXAIJEHkiioAu21i7OY/swcxo7rDqwaZNfVo8seqzia7177N4xEsKMqD7DwquWs+aBEqrOYgCRO8ZsPK5Tyd2Jj+wFUBXAE+B28gmXwFABBApMkTmXAVunCgFUq5UkF1QAPTRjndXHiw9s+wjbuiesZoAnp/RyGOJZcQdTScowJZTaE2aV9OoODhfZCi7q4QAwSUGHh67LIgjBLcZLgxdzOTSu3b8d5Jf3XOkWWP0UUqEch3Qw+ZwcsfGKKHu7AsYS02YzaZvO9LTNUyqPyRBCVo+P36d1Nh2rjlVh9N/jvV3Td52VfgHrmtfZjb5+sZYI4B4KtLTVVxXAEcC/rpRLbecTL+ltpKs1LBN7wQwlxowmkMLCgo1TNpygyoF9wZ47Z3vT4XjkZd8YCBAQALye9x7gQOqvrcB9KnicOabS+1An9pg8s1/Aa0zMjfIZGsHAAAAAElFTkSuQmCC") 7 0, auto !important;
+    } </style>
+    <style type="text/css">/*
+ * contextMenu.js v 1.4.0
+ * Author: Sudhanshu Yadav
+ * s-yadav.github.com
+ * Copyright (c) 2013 Sudhanshu Yadav.
+ * Dual licensed under the MIT and GPL licenses
+**/
+
+    .iw-contextMenu {
+        box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.10) !important;
+        border: 1px solid #c8c7cc !important;
+        border-radius: 11px !important;
+        display: none;
+        z-index: 1000000132;
+        max-width: 300px !important;
+        width: auto !important;
+    }
+
+    .dark-mode .iw-contextMenu,
+    .TnITTtw-dark-mode.iw-contextMenu,
+    .TnITTtw-dark-mode .iw-contextMenu {
+        border-color: #747473 !important;
+    }
+
+    .iw-cm-menu {
+        background: #fff !important;
+        color: #000 !important;
+        margin: 0px !important;
+        padding: 0px !important;
+        overflow: visible !important;
+    }
+
+    .dark-mode .iw-cm-menu,
+    .TnITTtw-dark-mode.iw-cm-menu,
+    .TnITTtw-dark-mode .iw-cm-menu {
+        background: #525251 !important;
+        color: #FFF !important;
+    }
+
+    .iw-curMenu {
+    }
+
+    .iw-cm-menu li {
+        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, Ubuntu, sans-serif !important;
+        list-style: none !important;
+        padding: 10px !important;
+        padding-right: 20px !important;
+        border-bottom: 1px solid #c8c7cc !important;
+        font-weight: 400 !important;
+        cursor: pointer !important;
+        position: relative !important;
+        font-size: 14px !important;
+        margin: 0 !important;
+        line-height: inherit !important;
+        border-radius: 0 !important;
+        display: block !important;
+    }
+
+    .dark-mode .iw-cm-menu li, .TnITTtw-dark-mode .iw-cm-menu li {
+        border-bottom-color: #747473 !important;
+    }
+
+    .iw-cm-menu li:first-child {
+        border-top-left-radius: 11px !important;
+        border-top-right-radius: 11px !important;
+    }
+
+    .iw-cm-menu li:last-child {
+        border-bottom-left-radius: 11px !important;
+        border-bottom-right-radius: 11px !important;
+        border-bottom: none !important;
+    }
+
+    .iw-mOverlay {
+        position: absolute !important;
+        width: 100% !important;
+        height: 100% !important;
+        top: 0px !important;
+        left: 0px !important;
+        background: #FFF !important;
+        opacity: .5 !important;
+    }
+
+    .iw-contextMenu li.iw-mDisable {
+        opacity: 0.3 !important;
+        cursor: default !important;
+    }
+
+    .iw-mSelected {
+        background-color: #F6F6F6 !important;
+    }
+
+    .dark-mode .iw-mSelected, .TnITTtw-dark-mode .iw-mSelected {
+        background-color: #676766 !important;
+    }
+
+    .iw-cm-arrow-right {
+        width: 0 !important;
+        height: 0 !important;
+        border-top: 5px solid transparent !important;
+        border-bottom: 5px solid transparent !important;
+        border-left: 5px solid #000 !important;
+        position: absolute !important;
+        right: 5px !important;
+        top: 50% !important;
+        margin-top: -5px !important;
+    }
+
+    .dark-mode .iw-cm-arrow-right, .TnITTtw-dark-mode .iw-cm-arrow-right {
+        border-left-color: #FFF !important;
+    }
+
+    .iw-mSelected > .iw-cm-arrow-right {
+    }
+
+    /*context menu css end */</style>
+    <style type="text/css">@-webkit-keyframes load4 {
+                               0%,
+                               100% {
+                                   box-shadow: 0 -3em 0 0.2em, 2em -2em 0 0em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 0;
+                               }
+                               12.5% {
+                                   box-shadow: 0 -3em 0 0, 2em -2em 0 0.2em, 3em 0 0 0, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+                               }
+                               25% {
+                                   box-shadow: 0 -3em 0 -0.5em, 2em -2em 0 0, 3em 0 0 0.2em, 2em 2em 0 0, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+                               }
+                               37.5% {
+                                   box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 0, 2em 2em 0 0.2em, 0 3em 0 0em, -2em 2em 0 -1em, -3em 0em 0 -1em, -2em -2em 0 -1em;
+                               }
+                               50% {
+                                   box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 0em, 0 3em 0 0.2em, -2em 2em 0 0, -3em 0em 0 -1em, -2em -2em 0 -1em;
+                               }
+                               62.5% {
+                                   box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 0, -2em 2em 0 0.2em, -3em 0 0 0, -2em -2em 0 -1em;
+                               }
+                               75% {
+                                   box-shadow: 0em -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0.2em, -2em -2em 0 0;
+                               }
+                               87.5% {
+                                   box-shadow: 0em -3em 0 0, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;
+                               }
+                           }
+
+    @keyframes load4 {
+        0%,
+        100% {
+            box-shadow: 0 -3em 0 0.2em, 2em -2em 0 0em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 0;
+        }
+        12.5% {
+            box-shadow: 0 -3em 0 0, 2em -2em 0 0.2em, 3em 0 0 0, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+        }
+        25% {
+            box-shadow: 0 -3em 0 -0.5em, 2em -2em 0 0, 3em 0 0 0.2em, 2em 2em 0 0, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+        }
+        37.5% {
+            box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 0, 2em 2em 0 0.2em, 0 3em 0 0em, -2em 2em 0 -1em, -3em 0em 0 -1em, -2em -2em 0 -1em;
+        }
+        50% {
+            box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 0em, 0 3em 0 0.2em, -2em 2em 0 0, -3em 0em 0 -1em, -2em -2em 0 -1em;
+        }
+        62.5% {
+            box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 0, -2em 2em 0 0.2em, -3em 0 0 0, -2em -2em 0 -1em;
+        }
+        75% {
+            box-shadow: 0em -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0.2em, -2em -2em 0 0;
+        }
+        87.5% {
+            box-shadow: 0em -3em 0 0, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;
+        }
+    }</style>
+    <style type="text/css">/* This is not a zero-length file! */</style>
+</head>
+
+<body data-type="generalComponents">
+
+
+<header class="am-topbar am-topbar-inverse admin-header">
+    <div class="am-topbar-brand">
+        <a href="javascript:;" class="tpl-logo">
+            <img style="height:76px" th:src="@{/amaze/logo.png}" alt="">
+        </a>
+    </div>
+    <div class="am-icon-list tpl-header-nav-hover-ico am-fl am-margin-right">
+        导航切换
+    </div>
+
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
+            data-am-collapse="{target: &#39;#topbar-collapse&#39;}"><span class="am-sr-only">导航切换</span> <span
+            class="am-icon-bars"></span></button>
+</header>
+
+<div class="tpl-page-container tpl-page-header-fixed">
+    <div class="tpl-left-nav tpl-left-nav-hover">
+        <div class="tpl-left-nav-title">
+            后台管理列表
+        </div>
+        <div class="tpl-left-nav-list">
+            <ul class="tpl-left-nav-menu">
+                <li class="tpl-left-nav-item">
+                    <a th:href="@{api/GoodsActivity/toList}"
+                       class="nav-link tpl-left-nav-link-list">
+                        <i class="am-icon-bar-chart"></i>
+                        <span>活动列表</span>
+                        <i class="tpl-left-nav-content tpl-badge-danger">
+                        </i>
+                    </a>
+                </li>
+                <li class="tpl-left-nav-item">
+                    <a th:href="@{/api/Goods/toList}"
+                       class="nav-link tpl-left-nav-link-list active">
+                        <i class="am-icon-bar-chart"></i>
+                        <span>商品列表</span>
+                        <i class="tpl-left-nav-content tpl-badge-danger">
+                        </i>
+                    </a>
+                </li>
+                <li class="tpl-left-nav-item">
+                    <a th:href="@{/api/user/toList}"
+                       class="nav-link tpl-left-nav-link-list ">
+                        <i class="am-icon-bar-chart"></i>
+                        <span>用户列表</span>
+                    </a>
+                </li>
+
+                <li class="tpl-left-nav-item">
+                    <ul class="tpl-left-nav-sub-menu">
+                        <li>
+                            <a href="https://www.jq22.com/demo/amazeUi20161129/table-font-list.html">
+                                <i class="am-icon-angle-right"></i>
+                                <span>文字表格</span>
+                                <i class="am-icon-star tpl-left-nav-content-ico am-fr am-margin-right"></i>
+                            </a>
+
+                            <a href="https://www.jq22.com/demo/amazeUi20161129/table-images-list.html">
+                                <i class="am-icon-angle-right"></i>
+                                <span>图片表格</span>
+                                <i class="tpl-left-nav-content tpl-badge-success">
+                                    18
+                                </i>
+
+                            </a><a href="https://www.jq22.com/demo/amazeUi20161129/form-news.html">
+                            <i class="am-icon-angle-right"></i>
+                            <span>消息列表</span>
+                            <i class="tpl-left-nav-content tpl-badge-primary">
+                                5
+                            </i>
+
+
+                        </a><a href="https://www.jq22.com/demo/amazeUi20161129/form-news-list.html">
+                            <i class="am-icon-angle-right"></i>
+                            <span>文字列表</span>
+                        </a>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="tpl-content-wrapper">
+        <div class="tpl-content-page-title">
+            表单
+        </div>
+        <ol class="am-breadcrumb">
+            <li class="am-active">商品表单</li>
+        </ol>
+        <div class="tpl-portlet-components">
+            <div class="portlet-title">
+                <div class="caption font-green bold">
+                    <span class="am-icon-code"></span> 商品列表
+                </div>
+            </div>
+            <div class="tpl-block">
+                <div class="am-g">
+                    <div class="am-u-sm-12 am-u-md-6">
+                        <div class="am-btn-toolbar">
+                            <div class="am-btn-group am-btn-group-xs">
+                                <a th:href="@{/api/Goods/toAdd}">
+                                    <button type="button" class="am-btn am-btn-default am-btn-secondary"><span
+                                            class="am-icon-plus"></span> 新增
+                                    </button>
+                                </a>
+                                <a href="#">
+                                    <button type="button" class="am-btn am-btn-default am-btn-danger"><span
+                                            class="am-icon-trash-o"></span> 删除
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="am-u-sm-12 am-u-md-3">
+                        <div class="am-form-group">
+
+                        </div>
+                    </div>
+                    <div class="am-u-sm-12 am-u-md-3">
+                        <div class="am-input-group am-input-group-sm">
+                            <input type="text" class="am-form-field">
+                            <span class="am-input-group-btn">
+                                <button class="am-btn  am-btn-default am-btn-success tpl-am-btn-success am-icon-search"
+                                        type="button">
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="am-g">
+                    <div class="tpl-table-images">
+                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 " th:each="item : ${goodList} " style="float: left">
+                            <div class="tpl-table-images-content">
+                                <div class="tpl-table-images-content-i-time" style="position: relative" >
+                                    商品名称：
+                                    <span style="color: #e0360d;font-size: 18px" th:text="${item.name}"></span>
+                                    <span style="position: absolute;right: 0">
+                                        发布时间：
+                                        <span th:text="''+${#dates.format(item.createTime,'yyyy-MM-dd HH:mm:ss')}" style="color: #4d6b8a;font-size: 17px;"></span>
+                                    </span>
+                                </div>
+                                <a href="javascript:;" class="tpl-table-images-content-i" style="display: inline-block">
+                                    <!--商品图片-->
+                                    <img th:src="@{'/api/Goods/img/'+${item.goodsId}}" alt="" style="width: 160px;height: 160px;float: left;"/>
+                                    <div class="" style="display: block;padding-top: 10px;height: 160px;overflow: auto;" >
+                                       <div> 商品描述：</div>
+                                        <div style="color: #1c1a1a;font-size: 15px;text-indent: 10px;word-break: break-all;
+                                        display: inline-block;" th:text="${item.describ}" ></div>
+                                    </div>
+                                </a>
+                                <div class="tpl-table-images-content-block" style="padding-top: 0;">
+                                    <div class="tpl-i-more">
+                                        <ul>
+                                            <li><span class="am-icon-qq am-text-warning">库存：8888</span></li>
+                                            <li><span class="am-icon-weixin am-text-success">订单：666</span></li>
+                                            <li><span class="am-icon-github font-green">交易量：7777</span></li>
+                                        </ul>
+                                    </div>
+                                    <div class="am-btn-toolbar" style="margin-top: 5px;">
+                                        <div class="am-btn-group am-btn-group-xs tpl-edit-content-btn" style="text-align: center;line-height: 30px;top: 10px;">
+                                            <a th:href="@{'/api/Goods/toEdit/'+${item.goodsId}}">
+                                                <button type="button"
+                                                        class="am-btn am-btn-default am-btn-secondary"><span
+                                                        class="am-icon-edit"></span> 编辑
+                                                </button>
+                                            </a>
+                                            <a th:href="@{'/api/Goods/del/'+${item.goodsId}}">
+                                                <button type="button" class="am-btn am-btn-default am-btn-danger">
+                                                    <span class="am-icon-trash-o"></span> 删除
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="am-u-lg-12">
+                <div class="am-cf">
+
+                    <div class="am-fr">
+                        <ul class="am-pagination tpl-pagination">
+                            <li class="am-disabled"><a href="#">«</a></li>
+                            <li class="am-active"><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">»</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <hr>
+            </div>
+
+        </div>
+        <div class="tpl-alert"></div>
+    </div>
+</div>
+
+</div>
+</div>
+
+</div>
+
+
+<script th:src="@{/amaze/jquery-2.1.1.js}"></script>
+<script th:src="@{/amaze/jquery.min.js}"></script>
+<script th:src="@{/amaze/amazeui.min.js}"></script>
+<script th:src="@{/amaze/app.js}"></script>
+
+<script>
+    $(function () {
+        $('#doc-form-file').on('change', function () {
+            var reads = new FileReader();
+            f = document.getElementById('file').files[0];
+            reads.readAsDataURL(f);
+            reads.onload = function (e) {
+                document.getElementById('img3').src = this.result;
+            }
+            var fileNames = '';
+            $.each(this.files, function () {
+                fileNames += '<span class="am-badge">' + this.name + '</span> ';
+            });
+            $('#file-list').html(fileNames);
+        });
+    });
+
+</script>
+<script>
+
+</script>
+
+</body>
+</html>

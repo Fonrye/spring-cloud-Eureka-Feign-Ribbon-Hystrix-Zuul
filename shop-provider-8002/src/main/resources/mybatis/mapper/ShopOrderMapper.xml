@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE  mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shop.provider8002.mapper.ShopOrderMapper">
+    <resultMap id="BaseResultMap" type="ShopOrder">
+        <result column="orderId" property="orderId"/>
+        <result column="fee" property="fee"/>
+        <result column="ouid" property="ouid"/>
+        <result column="oState" property="oState"/>
+        <result column="createTime" property="createTime"/>
+        <collection property="orderGoodsList" ofType="OrderGoods">
+            <result column="ogId" property="ogId"/>
+            <result column="ogOrderId" property="ogOrderId"/>
+            <result column="ogGoodsId" property="ogGoodsId"/>
+            <result column="goodPrice" property="goodPrice"/>
+            <result column="goodName" property="goodName"/>
+            <association property="goods" javaType="Goods">
+                <result column="goodsId" property="goodsId"/>
+                <result column="name" property="name"/>
+                <result column="price" property="price"/>
+                <result column="describ" property="describ"/>
+                <result column="classify" property="classify"/>
+                <result column="imgPath" property="imgPath"/>
+                <result column="imgName" property="imgName"/>
+            </association>
+        </collection>
+    </resultMap>
+
+    <!-- 表字段 -->
+    <sql id="baseColumns">
+        t.orderId
+        , t.fee
+        , t.ouid
+        , t.oState
+        , t.createTime
+    </sql>
+
+    <!-- 查询全部 -->
+    <select id="listAll" resultMap="BaseResultMap">
+        SELECT
+        t.orderId
+        , t.fee
+        , t.ouid
+        , t.oState
+        , t.createTime
+        , og.ogId
+        , og.ogOrderId
+        , og.ogGoodsId
+        , og.goodPrice
+        , og.goodName
+        , g.imgPath
+        , g.imgName
+        , g.describ
+        FROM shop_order t
+        left join order_goods og on t.orderId = og.ogOrderId
+        left join goods g on og.ogGoodsId = g.goodsId
+        <where>
+            <if test="fee != null and fee!=''">and t.fee=#{fee}</if>
+            <if test="ouid != null and ouid!=''">and t.ouid=#{ouid}</if>
+            <if test="oState != null and oState!=''">and t.oState=#{oState}</if>
+            <if test="createTime != null and createTime!=''">and t.createTime=#{createTime}</if>
+            and t.isDeleted = 0
+        </where>
+        order by orderId desc
+    </select>
+
+    <!-- 根据主键获取单条记录 -->
+    <select id="getById" resultMap="BaseResultMap" parameterType="Integer">
+        SELECT
+        <include refid="baseColumns"/>
+        FROM shop_order t
+        WHERE orderId = #{orderId}
+    </select>
+
+    <!-- 插入不为NULL的字段 -->
+    <insert id="insertIgnoreNull" parameterType="ShopOrder"
+            keyProperty="orderId" keyColumn="orderId" useGeneratedKeys="true">
+        INSERT INTO shop_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="fee != null">fee,</if>
+            <if test="ouid != null">ouid,</if>
+            <if test="oState != null">oState,</if>
+            <if test="createTime != null">createTime,</if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="fee != null">#{fee},</if>
+            <if test="ouid != null">#{ouid},</if>
+            <if test="oState != null">#{oState},</if>
+            <if test="createTime != null">#{createTime},</if>
+        </trim>
+    </insert>
+
+    <!-- 更新,更新全部字段 -->
+    <update id="update" parameterType="ShopOrder">
+        UPDATE shop_order
+        <set>
+            fee=#{fee},
+            ouid=#{ouid},
+            oState=#{oState},
+            createTime=#{createTime},
+        </set>
+        WHERE orderId = #{orderId}
+    </update>
+
+
+    <!-- 更新不为NULL的字段 -->
+    <update id="updateIgnoreNull" parameterType="ShopOrder">
+        UPDATE shop_order
+        <set>
+            <if test="fee != null">fee=#{fee},</if>
+            <if test="ouid != null">ouid=#{ouid},</if>
+            <if test="oState != null">oState=#{oState},</if>
+            <if test="createTime != null">createTime=#{createTime},</if>
+        </set>
+        WHERE orderId = #{orderId}
+    </update>
+
+
+    <!-- 根据主键删除记录 -->
+    <delete id="delete" parameterType="ShopOrder">
+        update shop_order
+        set isDeleted = 1
+        WHERE orderId = #{orderId}
+    </delete>
+
+
+</mapper>

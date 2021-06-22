@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE  mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shop.provider8001.mapper.OrderGoodsMapper">
+    <resultMap id="BaseResultMap" type="OrderGoods">
+        <result column="ogId" property="ogId"/>
+        <result column="ogOrderId" property="ogOrderId"/>
+        <result column="ogGoodsId" property="ogGoodsId"/>
+        <result column="goodPrice" property="goodPrice"/>
+        <result column="goodName" property="goodName"/>
+        <result column="isDeleted" property="isDeleted"/>
+        <association property="goods" javaType="Goods">
+            <result column="goodsId" property="goodsId"/>
+            <result column="name" property="name"/>
+            <result column="price" property="price"/>
+            <result column="describ" property="describ"/>
+            <result column="classify" property="classify"/>
+            <result column="imgPath" property="imgPath"/>
+            <result column="imgName" property="imgName"/>
+        </association>
+    </resultMap>
+
+    <!-- 表字段 -->
+    <sql id="baseColumns">
+        t.ogId
+        , t.ogOrderId
+        , t.ogGoodsId
+        , t.goodPrice
+        , t.goodName
+        , t.isDeleted
+    </sql>
+
+    <!-- 查询全部 -->
+    <select id="listAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="baseColumns"/>
+        FROM order_goods t
+        <where>
+            <if test="ogOrderId != null and ogOrderId!=''">and ogOrderId=#{ogOrderId}</if>
+            <if test="ogGoodsId != null and ogGoodsId!=''">and ogGoodsId=#{ogGoodsId}</if>
+            <if test="goodPrice != null and goodPrice!=''">and goodPrice=#{goodPrice}</if>
+            <if test="goodName != null and goodName!=''">and goodName=#{goodName}</if>
+            <if test="isDeleted != null and isDeleted!=''">and isDeleted=#{isDeleted}</if>
+        </where>
+    </select>
+
+    <!-- 根据主键获取单条记录 -->
+    <select id="getById" resultMap="BaseResultMap" parameterType="Integer">
+        SELECT
+        <include refid="baseColumns"/>
+        FROM order_goods t
+        WHERE ogId = #{ogId}
+    </select>
+
+
+    <!-- 插入不为NULL的字段 -->
+    <insert id="insertIgnoreNull" parameterType="OrderGoods"
+            keyProperty="ogId" keyColumn="ogId" useGeneratedKeys="true"
+    >
+        INSERT INTO order_goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ogId != null">ogId,</if>
+            <if test="ogOrderId != null">ogOrderId,</if>
+            <if test="ogGoodsId != null">ogGoodsId,</if>
+            <if test="goodPrice != null">goodPrice,</if>
+            <if test="goodName != null">goodName,</if>
+            <if test="isDeleted != null">isDeleted,</if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="ogId != null">#{ogId},</if>
+            <if test="ogOrderId != null">#{ogOrderId},</if>
+            <if test="ogGoodsId != null">#{ogGoodsId},</if>
+            <if test="goodPrice != null">#{goodPrice},</if>
+            <if test="goodName != null">#{goodName},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+        </trim>
+    </insert>
+
+    <!-- 更新,更新全部字段 -->
+    <update id="update" parameterType="OrderGoods">
+        UPDATE order_goods
+        <set>
+            ogOrderId=#{ogOrderId},
+            ogGoodsId=#{ogGoodsId},
+            goodPrice=#{goodPrice},
+            goodName=#{goodName},
+            isDeleted=#{isDeleted},
+        </set>
+        WHERE ogId = #{ogId}
+    </update>
+
+
+    <!-- 更新不为NULL的字段 -->
+    <update id="updateIgnoreNull" parameterType="OrderGoods">
+        UPDATE order_goods
+        <set>
+            <if test="ogOrderId != null">ogOrderId=#{ogOrderId},</if>
+            <if test="ogGoodsId != null">ogGoodsId=#{ogGoodsId},</if>
+            <if test="goodPrice != null">goodPrice=#{goodPrice},</if>
+            <if test="goodName != null">goodName=#{goodName},</if>
+            <if test="isDeleted != null">isDeleted=#{isDeleted},</if>
+        </set>
+        WHERE ogId = #{ogId}
+    </update>
+
+
+    <!-- 根据主键删除记录 -->
+    <delete id="delete" parameterType="OrderGoods">
+        delete
+        from order_goods
+        WHERE ogId = #{ogId}
+    </delete>
+
+
+</mapper>

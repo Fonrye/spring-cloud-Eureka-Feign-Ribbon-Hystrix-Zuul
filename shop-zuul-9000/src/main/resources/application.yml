@@ -1,0 +1,20 @@
+server:
+  port: 9000
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka/,http://localhost:7002/eureka/
+
+spring:
+  application:
+    name: shop-zuul
+zuul:
+  host:
+    connect-timeout-millis: 60000
+  routes:
+    user:
+      path: /user/**
+      serviceId: eureka-consumer-8085
+    goods:
+      path: /goods/**
+      serviceId: eureka-consumer-8085
