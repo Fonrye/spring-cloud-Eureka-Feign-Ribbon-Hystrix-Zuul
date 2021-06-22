@@ -1,5 +1,4 @@
 # spring-cloud-Eureka-Feign-Ribbon-Hystrix-Zuul
-# spring cloud + Eureka，Feign，Ribbon，Hystrix，Zuul
 
 #### 介绍
 一个简单的微服务商城项目
@@ -36,6 +35,9 @@
 (1) 搭建eureka服务中心；（10分）
 (2) 使用Feign和Ribbon实现轮询负载均衡策略；（20分）
 (3) 添加Hystrix服务容错保护和Zuul服务网关；（20分）
+
+
+
 Course title
 1. Basic requirements
    Carefully read the demand analysis given in the following topics to complete the design and implementation of the system.
